@@ -1,0 +1,90 @@
+class Solution {
+    private int rowSum(int[][] a,int r,int c)
+    {
+        // check for duplicate using boolean array
+        boolean[] vis = new boolean[10];
+        int sum=0;
+        for (int i=0;i<3;i++)
+        {int rowS=0;
+            for (int j=0;j<3;j++)
+            {
+                int val = a[r+i][c+j];
+                if (val==0 || val>=10 || vis[val])
+                {
+                    return -1;
+                }
+                vis[val]=true;
+                rowS+=val;
+            }
+            if (i==0)
+            {
+                sum=rowS;
+            }
+            else
+            {
+                if (sum!=rowS) return -1;
+            }
+        }
+        return sum;
+
+    }
+    private int colSum(int[][] a,int r,int c)
+    {
+        int sum=0;
+        for (int j=0;j<3;j++)
+        {int cols=0;
+            for (int i=0;i<3;i++)
+            {
+                int val=a[r+i][c+j];
+                cols+=val;
+            }
+            if (j==0)
+            {
+                sum=cols;
+            }
+            else
+            {
+                if (sum!=cols) return -1;
+            }
+        }
+        return sum;
+    }
+    private int diagonalSum(int[][] a,int r,int c)
+    {
+        int d1=a[r][c]+a[r+1][c+1]+a[r+2][c+2];
+        int d2=a[r][c+2]+a[r+1][c+1]+a[r+2][c];
+        if (d1!=d2) return -1;
+        return d1;
+    }
+    private boolean magic(int[][] a,int r,int c)
+    {
+        int rsum = rowSum(a,r,c);
+        if (rsum==-1) return false;
+        int csum = colSum(a,r,c);
+        if (csum==-1) return false;
+        int diagsum = diagonalSum(a,r,c);
+        if (diagsum==-1) return false;
+        if (rsum==csum && rsum == diagsum)
+        {
+            return true;
+        }
+        return false;
+    }
+    public int numMagicSquaresInside(int[][] a) {
+        int n=a.length;
+        int m=a[0].length;
+        int count=0;
+        for (int i=0;i<n-2;i++)
+        {
+            for (int j=0;j<m-2;j++)
+            {
+                if (magic(a,i,j))
+                {
+                    count++;
+                }
+            }
+        }
+        return count;
+
+    }
+}
