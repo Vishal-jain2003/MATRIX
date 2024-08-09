@@ -1,0 +1,69 @@
+class Solution {
+    public boolean magic(int[][] a,int r,int c,int k)
+    {
+        int target=0;
+        // sum in row
+        for (int j=c;j<c+k;j++)
+        {
+            target+=a[r][j];
+        }
+
+        // go in row
+        
+        for (int i=r;i<r+k;i++)
+        {int rows=0;
+            for (int j=c;j<c+k;j++)
+            {
+                rows+=a[i][j];
+            }
+            if (rows!=target) return false;
+        }
+
+        // col sum
+        for (int j=c;j<c+k;j++)
+        {
+            int cols=0;
+            for (int i=r;i<r+k;i++)
+            {
+                cols+=a[i][j];
+            }
+            if (cols!=target) return false;
+        }
+
+        // diagonal
+        int d1=0;
+        int d2=0;
+
+        for (int i=0;i<k;i++)
+        {
+          d1+=a[r+i][c+i];
+          d2+=a[r+i][c+k-1-i]; // important
+        }
+        if (d1!=d2) return false;
+
+        return target==d1;
+
+
+
+    }
+    public int largestMagicSquare(int[][] a) {
+        int n=a.length;
+        int m=a[0].length;
+        int max=Math.min(n,m); // max of size k 
+        for (int k=max;k>1;k--) // for size 1 all are magic we want max 
+        {
+          for (int i=0;i<=n-k;i++)
+          {
+            for (int j=0;j<=m-k;j++)
+            {
+                if (magic(a,i,j,k))
+                {
+                    return k;
+                }
+            }
+          }
+        }
+        return 1;
+
+    }
+}
