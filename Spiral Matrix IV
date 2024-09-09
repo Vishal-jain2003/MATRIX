@@ -1,0 +1,92 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public int[][] spiralMatrix(int m, int n, ListNode head) {
+        int[][] ans = new int[m][n];
+        int leftcol=0;
+        int rightcol=n-1;
+        int top=0;
+        int bottom=m-1;
+        int total=0;
+        while(total<m*n)
+        {
+            // leftcol to rightcol
+            for (int j=leftcol;j<=rightcol && total<m*n;j++)
+            {
+               if (head!=null)
+               {
+                ans[top][j]=head.val;
+                head=head.next;
+                
+               }
+               else
+               {
+                ans[top][j]=-1;
+
+               }
+               total++;
+                
+            }
+            top++;
+            // top row to bottom row 
+            for (int i=top;i<=bottom && total<m*n;i++)
+            {
+                if (head!=null)
+                {
+                    ans[i][rightcol]=head.val;
+                    head=head.next;
+                }
+                else
+                {
+                    ans[i][rightcol]=-1;
+                }
+                total++;
+            }
+            rightcol--;
+            // rightcol to leftcol
+            for (int j=rightcol;j>=leftcol && total<m*n;j--)
+            {
+                if (head!=null)
+                {
+                    ans[bottom][j]=head.val;
+                    head = head.next;
+                
+                }
+                else
+
+                {
+                    ans[bottom][j]=-1;
+                }
+                total++;
+            }
+            bottom--;
+            // bottom row to top row
+            for (int i=bottom;i>=top && total<m*n;i--)
+            {
+                if (head!=null)
+                {
+                    ans[i][leftcol]=head.val;
+                    head=head.next;
+
+                }
+                else
+                {
+                    ans[i][leftcol]=-1;
+                    
+                }
+                total++;
+            }
+            leftcol++;
+            
+        }
+        return ans;
+    }
+}
